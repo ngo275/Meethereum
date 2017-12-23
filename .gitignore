@@ -1,0 +1,4 @@
+build/contracts/*
+client/node_modules/*
+.env
+.envrc
