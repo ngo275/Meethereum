@@ -6,7 +6,7 @@ contract Meetup {
   string public name;
   uint public applicationStartedAt;
   uint public applicationEndedAt;
-  uint public minimumGuarantee;
+  uint public minFee;
   uint public capacity;
   bool public aborted = false;
 
@@ -22,16 +22,12 @@ contract Meetup {
   event Aborted(address _meetupAddress, string _name);
   event Applied(address _applicantID, string _name);
   event Canceled(address _applicantID, string _name);
-  event RequestedDelegation(address _applicantID, string _name, uint _fee);
-  event AbortDelegation(address _applicantID, string _name, uint _fee);
-  event AcquiredDelegation(address _applicantID, string _name, uint _fee);
   event ApplicationApproved(address[] _applicantIDs);
 
   Candidate[] public candidates;
   address[] public invitations;
   mapping (address => Candidate) public approvedApplicants;
   mapping (address => uint) public refunds;
-  mapping (address => Candidate) public delegations;
 
   modifier duringApplicationPeriod() {
     require(now > applicationStartedAt);
@@ -65,7 +61,7 @@ contract Meetup {
   }
 
   function Meetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt,
-     uint _minimumGuarantee, uint _capacity, address _owner) 
+     uint _minFee, uint _capacity, address _owner) 
     public
     payable   
   {
@@ -74,7 +70,7 @@ contract Meetup {
     name = _name;
     applicationStartedAt = _applicationStartedAt;
     applicationEndedAt = _applicationEndedAt;
-    minimumGuarantee = _minimumGuarantee;
+    minFee = _minFee;
     capacity = _capacity;
   }
 
@@ -84,7 +80,7 @@ contract Meetup {
     // duringApplicationPeriod()
     notAborted()
   {
-    require(msg.value >= minimumGuarantee);
+    require(msg.value >= minFee);
 
     var c = getCandidate(msg.sender);
 
@@ -125,21 +121,6 @@ contract Meetup {
     var c = getCandidate(msg.sender);
     success = c.applicantID == msg.sender;
   }
-
-  /*function inviteByOwner(address[] applicantIDs)
-    public
-    onlyOrganizer()
-    notAborted()
-    returns (bool success)
-  {
-    for (uint i = 0; i < applicantIDs.length ; i++ ) {
-      var applicantID = applicantIDs[i];
-      var c = getCandidate(applicantID);
-      require(c.applicantID == applicantID);
-      invitations.push(applicantID);
-    }
-    success = true;
-  }*/
 
   function publishApprovedApplicants()
     public
@@ -202,7 +183,7 @@ contract Meetup {
   {
     aborted = true;
     Aborted(address(this), name);
-    for(uint i = 0; i < candidates.length; i++){
+    for(uint i = 0; i < candidates.length; i++) {
       var c = candidates[i];
       if (c.applicantID != 0x0) {
         refunds[c.applicantID] = c.fee;
@@ -240,64 +221,6 @@ contract Meetup {
     } else {
       success = false;
     }
-  }
-
-  function requestApplicationTransfer()
-    public
-    notAborted()
-    afterApplicationEnd()
-  {
-    var c = approvedApplicants[msg.sender];
-    require(c.applicantID == msg.sender);
-
-    var _c = Candidate(msg.sender, c.name, c.fee);
-    delegations[msg.sender] = _c;
-    delete approvedApplicants[msg.sender];
-    RequestedDelegation(_c.applicantID, _c.name, _c.fee);
-  }
-
-  function abortApplicationTransfer()
-    public
-    notAborted()
-    afterApplicationEnd()
-  {
-    var c = delegations[msg.sender];
-    require(c.applicantID == msg.sender);
-
-    var _c = Candidate(msg.sender, c.name, c.fee);
-    approvedApplicants[msg.sender] = _c;
-    delete delegations[msg.sender];
-    AbortDelegation(_c.applicantID, _c.name, _c.fee);
-  }
-
-  function checkApplicationTransferring()
-    public
-    notAborted()
-    afterApplicationEnd()
-    constant
-    returns (bool success)
-  {
-    var c = delegations[msg.sender];
-    success = c.applicantID == msg.sender;
-  }
-
-  function acquireApplicationTransfer(address _from, string _name)
-    public
-    payable
-    notAborted()
-    afterApplicationEnd()
-  {
-    var c = delegations[_from];
-
-    require(c.applicantID == _from && (c.fee == 0 || msg.value >= c.fee));
-
-    var delegation = Candidate(msg.sender, _name, c.fee);
-    delete delegations[_from];
-    approvedApplicants[msg.sender] = delegation;
-    AcquiredDelegation(msg.sender, _name, c.fee);
-    uint ownerFee = msg.value * OWNER_FEE / FEE_PRECISION;
-    _from.transfer(msg.value - ownerFee);
-    owner.transfer(ownerFee);
   }
 
   /*****************************/
