@@ -1,5 +1,5 @@
-const Web3 = require('web3');
 require('dotenv').config();
+import Web3 from 'web3';
 import Contract from './contract';
 
 class Meetup {
