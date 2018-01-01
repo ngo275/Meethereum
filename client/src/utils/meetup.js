@@ -45,6 +45,8 @@ export default class Meetup {
       case 42:
         this.etherscanHost = 'https://kovan.etherscan.io/';
         break;
+      default:
+        break;
       }
     });
 

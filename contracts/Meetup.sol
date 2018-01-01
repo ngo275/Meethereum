@@ -6,6 +6,7 @@ contract Meetup {
   string public name;
   uint public applicationStartedAt;
   uint public applicationEndedAt;
+  uint public date;
   uint public minFee;
   uint public capacity;
   bool public aborted = false;
@@ -60,8 +61,7 @@ contract Meetup {
     _;
   }
 
-  function Meetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt,
-     uint _minFee, uint _capacity, address _owner) 
+  function Meetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt, uint _date, uint _minFee, uint _capacity, address _owner) 
     public
     payable   
   {
@@ -70,6 +70,7 @@ contract Meetup {
     name = _name;
     applicationStartedAt = _applicationStartedAt;
     applicationEndedAt = _applicationEndedAt;
+    date = _date;
     minFee = _minFee;
     capacity = _capacity;
   }

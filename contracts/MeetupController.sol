@@ -17,11 +17,11 @@ contract MeetupController {
 
 
   // @TODO: add meetup date.
-  function setupMeetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt, uint _minFee, uint _capacity)
+  function setupMeetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt, uint _date, uint _minFee, uint _capacity)
     public
     returns (address meetupAddress)
   {
-    meetupAddress = new Meetup(_organizer, _name, _applicationStartedAt, _applicationEndedAt, _minFee, _capacity, owner);
+    meetupAddress = new Meetup(_organizer, _name, _applicationStartedAt, _applicationEndedAt, _date, _minFee, _capacity, owner);
     uint idx = meetups.length;
     meetups.push(meetupAddress);
     organizerMeetups[_organizer].push(idx);

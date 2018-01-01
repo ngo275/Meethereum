@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import { ListGroup, ListGroupItem, Col, Row } from 'react-bootstrap'
 import Meetup from '../utils/meetup';
 import MeetupItem from './meetupItem';
