@@ -16,7 +16,6 @@ export default class MeetupBoard extends Component {
   async componentDidMount() {
     const meetupDetails = await this.getMeetups();
     console.log(meetupDetails);
-
     this.setState({meetups: meetupDetails});
   }
 
@@ -27,11 +26,6 @@ export default class MeetupBoard extends Component {
       return {address: address, name: name}
     });
     return meetupDetails;
-  }
-
-  sleep(delay) {
-    var start = new Date().getTime();
-    while (new Date().getTime() < start + delay);
   }
 
   render() {
