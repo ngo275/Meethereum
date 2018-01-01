@@ -9,13 +9,11 @@ export default class MeetupItem extends Component {
 
   render() {
     return (
-      <Col xs={12} md={12} className='meetup-item' key={this.props.address}>
-        <Jumbotron>
-          <div className='meetup-name'>{this.props.name}</div>
-          <div className='meetup-address'>{this.props.address}</div>
-        </Jumbotron>
-      </Col>
-    )
+      <div>
+        <div className='meetup-capacity'>定員{this.props.capacity}名</div>
+        <div className='meetup-minFee'>参加料金{this.props.minFee}ETH</div>
+      </div>
+    );
   }
 }
 

@@ -75,10 +75,20 @@ export default class Meetup {
     });
   }
 
-  async getMeetupApplicants(address) {
+  async getMeetupCapacity(address) {
     return new Promise((resolve) => {
       const meetup = new this.web3.eth.Contract(Contract.meetupABI, address);
-      meetup.methods.candidates().call().then(result => {
+      meetup.methods.capacity().call().then(result => {
+        resolve(result);
+      });
+    });
+  }
+
+  async getMeetupMinFee(address) {
+    return new Promise((resolve) => {
+      const meetup = new this.web3.eth.Contract(Contract.meetupABI, address);
+      meetup.methods.minFee().call().then(result => {
+        console.log(result);
         resolve(result);
       });
     });
