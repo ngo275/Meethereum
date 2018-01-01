@@ -15,6 +15,8 @@ contract MeetupController {
     uint _minFee, uint _capacity
   );
 
+
+  // @TODO: add meetup date.
   function setupMeetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt, uint _minFee, uint _capacity)
     public
     returns (address meetupAddress)

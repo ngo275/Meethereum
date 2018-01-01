@@ -4843,6 +4843,10 @@ p-finally@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
 
+p-iteration@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/p-iteration/-/p-iteration-1.1.5.tgz#c8dd8e61d5bc1a151c7c7ccc2e288c0fb826eb8b"
+
 p-limit@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-1.1.0.tgz#b07ff2d9a5d88bec806035895a2bab66a27988bc"

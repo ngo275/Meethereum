@@ -1,21 +1,21 @@
-require('dotenv').config();
 import Web3 from 'web3';
-import Contract from './contract';
+import Contract from '../contract';
+require('dotenv').config();
 
-class Meetup {
+export default class Meetup {
   constructor() {
     this.INFURA_ID = process.env.INFURA_ID;
     this.web3 = new Web3();
 
-    if (typeof web3 !== 'undefined') {
+    if (typeof this.web3 !== 'undefined') {
       if (Web3.givenProvider) {
         this.web3.setProvider(Web3.givenProvider);
       } else {
-        if(web3.currentProvider.sendAsync) {
-          web3.currentProvider.send = web3.currentProvider.sendAsync;
-          delete web3.currentProvider.sendAsync;
+        if(this.web3.currentProvider.sendAsync) {
+          this.web3.currentProvider.send = this.web3.currentProvider.sendAsync;
+          delete this.web3.currentProvider.sendAsync;
         }
-        this.web3.setProvider(web3.currentProvider);
+        this.web3.setProvider(this.web3.currentProvider);
       }
       console.log('[Web3.js] initialized with web3 object');
     } else {
@@ -56,9 +56,31 @@ class Meetup {
 
   }
 
-  getOrganizerMeetups() {
+  async getOrganizerMeetups() {
+    return new Promise((resolve) => {
+      this.contract.methods.getOrganizerMeetups('0x005041C1a70B270DB90adaEbb109f4C9501d2C6B')
+        .call()
+        .then((result) => {
+          resolve(result);
+        });
+    });
+  }
 
+  async getMeetupName(address) {
+    return new Promise((resolve) => {
+      const meetup = new this.web3.eth.Contract(Contract.meetupABI, address);
+      meetup.methods.name().call().then(result => {
+        resolve(result);
+      });
+    });
+  }
+
+  async getMeetupApplicants(address) {
+    return new Promise((resolve) => {
+      const meetup = new this.web3.eth.Contract(Contract.meetupABI, address);
+      meetup.methods.candidates().call().then(result => {
+        resolve(result);
+      });
+    });
   }
 }
-
-export default Meetup;
