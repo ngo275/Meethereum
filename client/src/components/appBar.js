@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 // import addIcon from '../icons/ic_plus.png';
+import Meetup from '../utils/meetup';
 
 export default class AppBar extends Component {
   setupMeetup() {
     console.log('testtest');
-    
+    new Meetup().setupMeetup();
   }
 
   render() {

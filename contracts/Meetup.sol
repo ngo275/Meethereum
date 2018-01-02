@@ -224,9 +224,9 @@ contract Meetup {
     }
   }
 
-  /*****************************/
-  /***** PRIVATE FUNCTIONS *****/
-  /*****************************/
+  
+  // MARK: - private methods
+
   function addCandidate(address _applicantID, string _name, uint _fee) private {
     bool added = false;
     for (uint i = 0; i < candidates.length; i++) {
