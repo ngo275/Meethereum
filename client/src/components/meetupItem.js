@@ -1,5 +1,5 @@
+// @flow
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
 
 export default class MeetupItem extends Component {
   render() {
@@ -12,7 +12,9 @@ export default class MeetupItem extends Component {
   }
 }
 
-// MeetupItem.propTypes = {
-//   name: PropTypes.string,
-//   address: PropTypes.string
-// }
+type PropTypes = {
+  address: string,
+  name: string,
+  capacity: number,
+  minFee: number
+};

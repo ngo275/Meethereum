@@ -1,20 +1,14 @@
 import React, {Component} from 'react';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 // import addIcon from '../icons/ic_plus.png';
-import Meetup from '../utils/meetup';
 
 export default class AppBar extends Component {
-  setupMeetup() {
-    console.log('testtest');
-    new Meetup().setupMeetup();
-  }
-
   render() {
     return (
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">Meetup</a>
+            <a href='https://www.meetup.com/ja-JP/'>Meetup</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>

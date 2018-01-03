@@ -28,7 +28,7 @@ window.addEventListener('load', function() {
       const meetupDetails = await map(meetups, async address => {
         const name = await meetup.getMeetupName(address);
         const capacity = await meetup.getMeetupCapacity(address);
-        // const minFee = await this.meetup.getMeetupMinFee(address);
+        const minFee = await meetup.getMeetupMinFee(address);
         return {address: address, name: name, capacity: capacity, minFee: 0};
       });
       store.dispatch(updateMeetups(meetupDetails));

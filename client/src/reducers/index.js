@@ -59,6 +59,10 @@ export function newMeetup() {
   meetup.newMeetup();
 }
 
+export function applyMeetup(address: string) {
+  meetup.applyMeetup(address);
+}
+
 export default (state: State = initialState, action: Action): State => {
   const { type, payload } = action;
   switch (type) {

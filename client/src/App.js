@@ -2,10 +2,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { newMeetup } from './reducers';
+import { newMeetup, applyMeetup } from './reducers';
 import MeetupBoard from './components/meetupBoard';
 import AppBar from './components/appBar';
-
 
 type PropTypes = {
   message: string,
@@ -13,6 +12,7 @@ type PropTypes = {
   meetups: any,
   setMessage: string => void,
   setOrganizerMeetups: void => void,
+  applyMeetup: string => void
 };
 
 /// アプリの薄いラッパ. ReactとReduxが混在. これより下ではReduxを気にしないで良い.
@@ -23,8 +23,13 @@ class App extends Component {
     return (
       <div className="App">
         <div>{blockNumber}</div>
-        <AppBar newMeetup={ () => this.props.newMeetup() } />
-        <MeetupBoard meetups={meetups} />
+        <AppBar 
+          newMeetup={ () => this.props.newMeetup() }
+        />
+        <MeetupBoard
+          meetups={meetups} 
+          applyMeetup={ (address) => this.props.applyMeetup(address) }  
+        />
       </div>
     );
   }
@@ -32,13 +37,14 @@ class App extends Component {
 
 export default connect(
   state => ({
-    // message: state.message,
     blockNumber: state.blockNumber,
     meetups: state.meetups
   }),
   dispatch => ({
     // setMessage: (value: string) => dispatch(sendMessage(value)),
     // setOrganizerMeetups: () => setOrganizerMeetups(),
+    // applyMeetup: (address: string) => dispatch(applyMeetup(address)),
+    applyMeetup: (address: string) => applyMeetup(address),
     newMeetup: () => newMeetup()
   })
 )(App);
