@@ -18,7 +18,7 @@ export default class AppBar extends Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Nav pullRight>
-          <NavItem eventKey={1} onClick={this.setupMeetup}>New</NavItem>
+          <NavItem eventKey={1} onClick={this.props.newMeetup}>New</NavItem>
           <NavDropdown eventKey={3} title='Mypage' id='basic-nav-dropdown'>
             <MenuItem eventKey={3.1}>Profile</MenuItem>
             <MenuItem eventKey={3.2}>Settings</MenuItem>

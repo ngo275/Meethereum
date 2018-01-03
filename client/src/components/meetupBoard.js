@@ -34,8 +34,8 @@ export default class MeetupBoard extends Component {
     return (
       <Row>
         <Col xs={12} md={6} mdOffset={3} className='meetup-board' key='meetup-board'>
-          <ListGroup meetups={this.state.meetups}>
-            {this.state.meetups.map((m) => {
+          <ListGroup meetups={this.props.meetups}>
+            {this.props.meetups.map((m) => {
               return (
                 <ListGroupItem key={m.address} header={m.name}>
                   <MeetupItem capacity={m.capacity} minFee={m.minFee}></MeetupItem>
