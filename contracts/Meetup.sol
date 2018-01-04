@@ -4,6 +4,7 @@ contract Meetup {
   address public organizer;
   address public owner;
   string public name;
+  string public place;
   uint public applicationStartedAt;
   uint public applicationEndedAt;
   uint public date;
@@ -61,13 +62,14 @@ contract Meetup {
     _;
   }
 
-  function Meetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt, uint _date, uint _minFee, uint _capacity, address _owner) 
+  function Meetup(address _organizer, string _name, string _place, uint _applicationStartedAt, uint _applicationEndedAt, uint _date, uint _minFee, uint _capacity, address _owner) 
     public
     payable   
   {
     organizer = _organizer;
     owner = _owner;
     name = _name;
+    place = _place;
     applicationStartedAt = _applicationStartedAt;
     applicationEndedAt = _applicationEndedAt;
     date = _date;
@@ -110,6 +112,15 @@ contract Meetup {
     } else {
       success = false;
     }
+  }
+
+  function candidatesCount()
+    public
+    notAborted()
+    constant
+    returns (uint count)
+  {
+    count = candidates.length;
   }
 
   function isApplied()

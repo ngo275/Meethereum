@@ -16,7 +16,8 @@ export function meetupInstance(address) {
 export async function getMeetups() {
   eth.setupDefaultAccount();
   return new Promise((resolve, reject) => {
-    meetupControllerInstance().methods.getOrganizerMeetups('0x005041C1a70B270DB90adaEbb109f4C9501d2C6B')
+    meetupControllerInstance().methods
+      .getOrganizerMeetups(window.web3.eth.defaultAccount)
       .call()
       .then((result, reject) => {
         resolve(result);
@@ -27,11 +28,10 @@ export async function getMeetups() {
 export async function newMeetup() {
   eth.setupDefaultAccount();
   return new Promise((resolve, reject) => {
-    // @TODO: ここがちゃんと動いていない
-    meetupControllerInstance().methods.setupMeetup('0x005041C1a70B270DB90adaEbb109f4C9501d2C6B', 'blockchain meetup', 1514811148, 1514821148, 10, 100)
-      .call()
-      .then((result) => {
-        // @TODO: metamaskにsignを求められない
+    meetupControllerInstance().methods
+      .setupMeetup(window.web3.eth.defaultAccount, 'blockchain meetup', '東京都文京区本郷七丁目3番1号', 1514986781, 1515086781, 1515583800, 10, 100)
+      .send({from: window.web3.eth.defaultAccount})
+      .then(result => {
         console.log(result);
         resolve(result);
       });
@@ -44,17 +44,86 @@ export async function newMeetup() {
 export async function applyMeetup(address) {
   eth.setupDefaultAccount();
   return new Promise((resolve, reject) => {
-    // @TODO: ここがちゃんと動いていない
-    meetupInstance(address).methods.apply('NGO275').call().then(result => {
-      resolve(result);
-    });
-  });
+    meetupInstance(address).methods
+      .apply('NGO275')
+      .send({from: window.web3.eth.defaultAccount, value: window.web3.utils.toWei('0.1', 'ether')})
+      .then(result => {
+        console.log(result);
+        resolve(result);
+      });
+    }
+  );
+}
+
+export async function cancelMeetup(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods
+      .cancel()
+      .send({from: window.web3.eth.defaultAccount})
+      .then(result => {
+        console.log(result);
+        resolve(result);
+      });
+    }
+  );
+}
+
+export async function publishApprovedApplicants(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods
+      .publishApprovedApplicants()
+      .send({from: window.web3.eth.defaultAccount})
+      .then(result => {
+        console.log(result);
+        resolve(result);
+      });
+    }
+  );
+}
+
+export async function abortMeetup(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods
+      .abortEvent()
+      .send({from: window.web3.eth.defaultAccount})
+      .then(result => {
+        console.log(result);
+        resolve(result);
+      });
+    }
+  );
+}
+
+export async function getCandidates(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods
+      .candidates()
+      .call()
+      .then(result => {
+        console.log(result);
+        resolve(result);
+      });
+    }
+  );
 }
 
 export async function getMeetupName(address) {
   eth.setupDefaultAccount();
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.name().call().then(result => {
+      resolve(result);
+    });
+  });
+}
+
+export async function getMeetupPlace(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods.place().call().then(result => {
       resolve(result);
     });
   });
@@ -73,7 +142,51 @@ export async function getMeetupMinFee(address) {
   eth.setupDefaultAccount();
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.minFee().call().then(result => {
-      console.log(result);
+      resolve(result);
+    });
+  });
+}
+
+export async function getMeetupDate(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods.date().call().then(result => {
+      resolve(result);
+    });
+  });
+}
+
+export async function getMeetupApplicationStartedAt(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods.applicationStartedAt().call().then(result => {
+      resolve(result);
+    });
+  });
+}
+
+export async function getMeetupApplicationEndedAt(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods.applicationEndedAt().call().then(result => {
+      resolve(result);
+    });
+  });
+}
+
+export async function getMeetupCandidatesCount(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods.candidatesCount().call().then(result => {
+      resolve(result);
+    });
+  });
+}
+
+export async function getIsApplied(address) {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupInstance(address).methods.isApplied().call().then(result => {
       resolve(result);
     });
   });

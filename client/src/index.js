@@ -16,20 +16,35 @@ const store = createStore();
 window.addEventListener('load', function() {
   eth.setupWeb3();
 
-  //eth.setOnGreet(() => {});
   setInterval(async () => {
     const blockNumber = await eth.getBlockNumber();
     console.log(blockNumber);
     if (store.getState().blockNumber !== blockNumber) {
       store.dispatch(updateBlockNumber(blockNumber));
     }
+    
     const meetups = await meetup.getMeetups();
     if (store.getState().meetups.length !== meetups.length) {
       const meetupDetails = await map(meetups, async address => {
         const name = await meetup.getMeetupName(address);
+        const place = await meetup.getMeetupPlace(address);
         const capacity = await meetup.getMeetupCapacity(address);
-        const minFee = await meetup.getMeetupMinFee(address);
-        return {address: address, name: name, capacity: capacity, minFee: 0};
+        const minFee = await meetup.getMeetupMinFee(address) * 0.000000000000000001;
+        const isApplied = await meetup.getIsApplied(address);
+        const candidatesCount = await meetup.getMeetupCandidatesCount(address);
+        const timestamp = await meetup.getMeetupDate(address);
+        const date = new Date(timestamp * 1000);
+
+        return {
+          address: address,
+          name: name,
+          place: place,
+          capacity: capacity,
+          minFee: minFee,
+          isApplied: isApplied,
+          candidatesCount: candidatesCount,
+          date: date.toLocaleString()
+        };
       });
       store.dispatch(updateMeetups(meetupDetails));
     }

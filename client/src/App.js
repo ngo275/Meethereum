@@ -41,9 +41,6 @@ export default connect(
     meetups: state.meetups
   }),
   dispatch => ({
-    // setMessage: (value: string) => dispatch(sendMessage(value)),
-    // setOrganizerMeetups: () => setOrganizerMeetups(),
-    // applyMeetup: (address: string) => dispatch(applyMeetup(address)),
     applyMeetup: (address: string) => applyMeetup(address),
     newMeetup: () => newMeetup()
   })

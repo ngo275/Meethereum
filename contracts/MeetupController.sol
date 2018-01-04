@@ -11,21 +11,20 @@ contract MeetupController {
   event MeetupSet(
     address meetupAddress,
     address _organizer, string _name,
-    uint _applicationStartedAt, uint _applicationEndedAt,
+    string _place,
+    uint _applicationStartedAt, uint _applicationEndedAt, uint _date,
     uint _minFee, uint _capacity
   );
 
-
-  // @TODO: add meetup date.
-  function setupMeetup(address _organizer, string _name, uint _applicationStartedAt, uint _applicationEndedAt, uint _date, uint _minFee, uint _capacity)
+  function setupMeetup(address _organizer, string _name, string _place, uint _applicationStartedAt, uint _applicationEndedAt, uint _date, uint _minFee, uint _capacity)
     public
     returns (address meetupAddress)
   {
-    meetupAddress = new Meetup(_organizer, _name, _applicationStartedAt, _applicationEndedAt, _date, _minFee, _capacity, owner);
+    meetupAddress = new Meetup(_organizer, _name, _place, _applicationStartedAt, _applicationEndedAt, _date, _minFee, _capacity, owner);
     uint idx = meetups.length;
     meetups.push(meetupAddress);
     organizerMeetups[_organizer].push(idx);
-    MeetupSet(meetupAddress, _organizer, _name, now, _applicationEndedAt, _minFee, _capacity);
+    MeetupSet(meetupAddress, _organizer, _name, _place, _applicationStartedAt, _applicationEndedAt, _date, _minFee, _capacity);
   }
   
   function getOrganizerMeetups(address _organizer)

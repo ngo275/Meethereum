@@ -11,7 +11,14 @@ export default class MeetupBoard extends Component {
             {this.props.meetups.map((m) => {
               return (
                 <ListGroupItem key={m.address} header={m.name} onClick={e => this.props.applyMeetup(m.address)} >
-                  <MeetupItem capacity={m.capacity} minFee={m.minFee}></MeetupItem>
+                  <MeetupItem
+                    place={m.place}
+                    capacity={m.capacity}
+                    minFee={m.minFee}
+                    isApplied={m.isApplied}
+                    candidatesCount={m.candidatesCount}
+                    date={m.date}
+                  ></MeetupItem>
                 </ListGroupItem>
               );
             })}
