@@ -20,6 +20,7 @@ export async function getMeetups() {
       .getOrganizerMeetups(window.web3.eth.defaultAccount)
       .call()
       .then((result, reject) => {
+        console.log(result, reject);
         resolve(result);
       });
   });
@@ -27,9 +28,12 @@ export async function getMeetups() {
 
 export async function newMeetup(name, place, applicationStartedAt, applicationEndedAt, date, minFee, capacity) {
   eth.setupDefaultAccount();
+
+  // TODO: make toETH method
+  const minFeeETH = minFee * (10 ** 18);
   return new Promise((resolve, reject) => {
     meetupControllerInstance().methods
-      .setupMeetup(window.web3.eth.defaultAccount, name, place, applicationStartedAt, applicationEndedAt, date, minFee, capacity)
+      .setupMeetup(window.web3.eth.defaultAccount, name, place, applicationStartedAt, applicationEndedAt, date, minFeeETH, capacity)
       .send({from: window.web3.eth.defaultAccount})
       .then(result => {
         console.log(result);

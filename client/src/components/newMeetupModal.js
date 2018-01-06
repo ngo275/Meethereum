@@ -111,7 +111,7 @@ export default class NewMeetupModal extends Component {
             />
             <this.FieldGroup
               id='formControlsMinFee'
-              type='number'
+              type='text'
               label='参加料金(ETH)'
               placeholder='0'
             />
