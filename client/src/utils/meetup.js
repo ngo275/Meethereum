@@ -25,11 +25,11 @@ export async function getMeetups() {
   });
 }
 
-export async function newMeetup() {
+export async function newMeetup(name, place, applicationStartedAt, applicationEndedAt, date, minFee, capacity) {
   eth.setupDefaultAccount();
   return new Promise((resolve, reject) => {
     meetupControllerInstance().methods
-      .setupMeetup(window.web3.eth.defaultAccount, 'blockchain meetup', '東京都文京区本郷七丁目3番1号', 1514986781, 1515086781, 1515583800, 10, 100)
+      .setupMeetup(window.web3.eth.defaultAccount, name, place, applicationStartedAt, applicationEndedAt, date, minFee, capacity)
       .send({from: window.web3.eth.defaultAccount})
       .then(result => {
         console.log(result);
