@@ -66,12 +66,10 @@ export function toggleNewMeetupModalIsOpen() {
 
 export function newMeetup(name: string, place: string, date: string, time: string, minFee: number, capacity: number) {
   const now = Date.now() / 1000;
-  // TODO: dateとtimeをつなげる
-  console.log(date, time);
-  const d = date.split('-'); // 2018-01-09
-  const t = time.split(':'); // 20:00
-  const eventTimeString = new Date(d[0], d[1] - 1, d[2], t[0], t[1])
-  const eventTimestamp = Date.parse(eventTimeString) / 1000;
+  const d = date.split('-'); // 2018-01-20
+  const t = time.split(':'); // 18:00
+  const eventTimeString = new Date(d[0], d[1] - 1, d[2], t[0], t[1]) // 2018-01-20T09:00:00.000Z
+  const eventTimestamp = Date.parse(eventTimeString) / 1000; // 1516438800
   const applicationEndedAt = eventTimestamp - 60 * 60 * 24
   meetup.newMeetup(name, place, now, applicationEndedAt, eventTimestamp, minFee, capacity);
 }
