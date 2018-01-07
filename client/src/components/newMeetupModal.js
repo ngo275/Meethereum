@@ -148,6 +148,7 @@ export default class NewMeetupModal extends Component {
         this.state.formControlsCapacity
       );
     } catch(e) {
+      console.log(e);
       toast.error(e);
     }
 

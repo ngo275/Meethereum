@@ -53,6 +53,7 @@ export async function newMeetup(name, place, applicationStartedAt, applicationEn
 
 // MARK: - Meetup contract methods
 
+// TODO: msg.sender.valueのところ
 export async function applyMeetup(address) {
   eth.setupDefaultAccount();
   return new Promise((resolve, reject) => {

@@ -64,21 +64,26 @@ export function toggleNewMeetupModalIsOpen() {
   }
 }
 
-export function newMeetup(name: string, place: string, date: string, time: string, minFee: number, capacity: number) {
+export async function newMeetup(name: string, place: string, date: string, time: string, minFee: number, capacity: number) {
   const now = Date.now() / 1000;
   const d = date.split('-'); // 2018-01-20
   const t = time.split(':'); // 18:00
   const eventTimeString = new Date(d[0], d[1] - 1, d[2], t[0], t[1]) // 2018-01-20T09:00:00.000Z
   const eventTimestamp = Date.parse(eventTimeString) / 1000; // 1516438800
   const applicationEndedAt = eventTimestamp - 60 * 60 * 24
-  meetup.newMeetup(name, place, now, applicationEndedAt, eventTimestamp, minFee, capacity);
+  await meetup.newMeetup(name, place, now, applicationEndedAt, eventTimestamp, minFee, capacity);
 }
 
 export async function applyMeetup(address: string) {
-  // const res = await meetup.applyMeetup(address);
-  // console.log(res, 'index resducers');
-  // return res;
   await meetup.applyMeetup(address);
+}
+
+export async function cancelMeetup(address: string) {
+  await meetup.cancelMeetup(address);
+}
+
+export async function publishApprovedApplicants(address: string) {
+  await meetup.publishApprovedApplicants(address);
 }
 
 export default (state: State = initialState, action: Action): State => {

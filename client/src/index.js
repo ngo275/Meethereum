@@ -48,7 +48,7 @@ window.addEventListener('load', function() {
       });
       store.dispatch(updateMeetups(meetupDetails));
     }
-  }, 300000);
+  }, 300);
 
   ReactDOM.render(
     <Provider store={store}>

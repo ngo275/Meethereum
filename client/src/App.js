@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { newMeetup, applyMeetup, toggleNewMeetupModalIsOpen } from './reducers';
+import { newMeetup, applyMeetup, cancelMeetup, publishApprovedApplicants, toggleNewMeetupModalIsOpen } from './reducers';
 import MeetupBoard from './components/meetupBoard';
 import AppBar from './components/appBar';
 
@@ -33,6 +33,8 @@ class App extends Component {
         <MeetupBoard
           meetups={meetups} 
           applyMeetup={ (address) => this.props.applyMeetup(address) }  
+          cancelMeetup={ (address) => this.props.cancelMeetup(address) }  
+          publishApprovedApplicants={ (address) => this.props.publishApprovedApplicants(address) }  
         />
       </div>
     );
@@ -47,6 +49,8 @@ export default connect(
   }),
   dispatch => ({
     applyMeetup: (address: string) => applyMeetup(address),
+    cancelMeetup: (address: string) => cancelMeetup(address),
+    publishApprovedApplicants: (address: string) => publishApprovedApplicants(address),
     newMeetup: (name: string, place: string, date: string, time: string, minFee: number, capacity: number) => newMeetup(name, place, date, time, minFee, capacity),
     toggleNewMeetupModalIsOpen: () => dispatch(toggleNewMeetupModalIsOpen())
   })
