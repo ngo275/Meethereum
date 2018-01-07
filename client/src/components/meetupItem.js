@@ -18,7 +18,7 @@ export default class MeetupItem extends Component {
             <span className='meetup-minFee'>参加料金: {this.props.minFee}ETH</span><br/>
             <span className='meetup-date'>日程: {this.props.date}</span><br/>
             <span className='meetup-place'>開催場所: {this.props.place}</span><br/>
-            <span className='meetup-isApplied'>{isApplied}</span>
+            {/* <span className='meetup-isApplied'>{isApplied}</span> */}
           </Col>
           <Col md='4'>
             {this.getActionButton()}<br/><br/>
@@ -50,6 +50,7 @@ export default class MeetupItem extends Component {
   async applyAction() {
     try {
       await this.props.applyMeetup(this.props.address);
+      toast.success('応募完了しました！');
     } catch(e) {
       toast.error(e);
     }
@@ -58,6 +59,7 @@ export default class MeetupItem extends Component {
   async cancelAction() {
     try {
       await this.props.cancelMeetup(this.props.address);
+      toast.success('キャンセル完了しました！');
     } catch(e) {
       toast.error(e);
     }
