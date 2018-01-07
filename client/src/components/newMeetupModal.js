@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default class NewMeetupModal extends Component {
   constructor() {
@@ -15,7 +16,6 @@ export default class NewMeetupModal extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
     this.FieldGroup = this.FieldGroup.bind(this);
     this.getValidationState = this.getValidationState.bind(this);
   }
@@ -129,22 +129,28 @@ export default class NewMeetupModal extends Component {
             <Button className="btn btn-primary btn-large centerButton" type='submit'>作成</Button>
           </form>
         </div>
+        <ToastContainer />
       </Modal>
     );
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
 
     console.log(this.state);
-    this.props.newMeetup(
-      this.state.formControlsEventName,
-      this.state.formControlsPlace,
-      this.state.formControlsDate,
-      this.state.formControlsTime,
-      this.state.formControlsMinFee,
-      this.state.formControlsCapacity
-    );
+    try {
+      await this.props.newMeetup(
+        this.state.formControlsEventName,
+        this.state.formControlsPlace,
+        this.state.formControlsDate,
+        this.state.formControlsTime,
+        this.state.formControlsMinFee,
+        this.state.formControlsCapacity
+      );
+    } catch(e) {
+      toast.error(e);
+    }
+
     this.props.toggleNewMeetupModalIsOpen();
   }
   

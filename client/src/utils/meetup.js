@@ -19,9 +19,14 @@ export async function getMeetups() {
     meetupControllerInstance().methods
       .getOrganizerMeetups(window.web3.eth.defaultAccount)
       .call()
-      .then((result, reject) => {
-        console.log(result, reject);
+      .then(result => {
+        console.log(result);
         resolve(result);
+      })
+      .catch(error => {
+        reject(error.message);
+        console.log(error.message);
+        return;
       });
   });
 }
@@ -36,8 +41,11 @@ export async function newMeetup(name, place, applicationStartedAt, applicationEn
       .setupMeetup(window.web3.eth.defaultAccount, name, place, applicationStartedAt, applicationEndedAt, date, minFeeETH, capacity)
       .send({from: window.web3.eth.defaultAccount})
       .then(result => {
-        console.log(result);
         resolve(result);
+      })
+      .catch(error => {
+        reject(error.message);
+        return;
       });
   });
 }
@@ -52,8 +60,12 @@ export async function applyMeetup(address) {
       .apply('NGO275')
       .send({from: window.web3.eth.defaultAccount, value: window.web3.utils.toWei('0.1', 'ether')})
       .then(result => {
-        console.log(result);
         resolve(result);
+      })
+      .catch(error => {
+        console.log(error.message);
+        reject(error.message);
+        return;
       });
     }
   );
@@ -66,8 +78,11 @@ export async function cancelMeetup(address) {
       .cancel()
       .send({from: window.web3.eth.defaultAccount})
       .then(result => {
-        console.log(result);
         resolve(result);
+      })
+      .catch(error => {
+        reject(error.message);
+        return;
       });
     }
   );
@@ -82,6 +97,10 @@ export async function publishApprovedApplicants(address) {
       .then(result => {
         console.log(result);
         resolve(result);
+      })
+      .catch(error => {
+        reject(error.message);
+        return;
       });
     }
   );
@@ -96,6 +115,10 @@ export async function abortMeetup(address) {
       .then(result => {
         console.log(result);
         resolve(result);
+      })
+      .catch(error => {
+        reject(error.message);
+        return;
       });
     }
   );
@@ -120,7 +143,7 @@ export async function getMeetupName(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.name().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e, 'getMeetupName'); });
   });
 }
 
@@ -129,7 +152,7 @@ export async function getMeetupPlace(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.place().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }
 
@@ -138,7 +161,7 @@ export async function getMeetupCapacity(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.capacity().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }
 
@@ -147,7 +170,7 @@ export async function getMeetupMinFee(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.minFee().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }
 
@@ -156,7 +179,7 @@ export async function getMeetupDate(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.date().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }
 
@@ -165,7 +188,7 @@ export async function getMeetupApplicationStartedAt(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.applicationStartedAt().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }
 
@@ -174,7 +197,7 @@ export async function getMeetupApplicationEndedAt(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.applicationEndedAt().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }
 
@@ -183,7 +206,7 @@ export async function getMeetupCandidatesCount(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.candidatesCount().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }
 
@@ -192,6 +215,6 @@ export async function getIsApplied(address) {
   return new Promise((resolve, reject) => {
     meetupInstance(address).methods.isApplied().call().then(result => {
       resolve(result);
-    });
+    }).catch(e => { console.log(e); });
   });
 }

@@ -74,8 +74,11 @@ export function newMeetup(name: string, place: string, date: string, time: strin
   meetup.newMeetup(name, place, now, applicationEndedAt, eventTimestamp, minFee, capacity);
 }
 
-export function applyMeetup(address: string) {
-  meetup.applyMeetup(address);
+export async function applyMeetup(address: string) {
+  // const res = await meetup.applyMeetup(address);
+  // console.log(res, 'index resducers');
+  // return res;
+  await meetup.applyMeetup(address);
 }
 
 export default (state: State = initialState, action: Action): State => {

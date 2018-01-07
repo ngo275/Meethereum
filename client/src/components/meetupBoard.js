@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { ListGroup, ListGroupItem, Col, Row } from 'react-bootstrap'
+import { ListGroup, ListGroupItem, Col, Row } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 import MeetupItem from './meetupItem';
 
 export default class MeetupBoard extends Component {
@@ -10,7 +11,7 @@ export default class MeetupBoard extends Component {
           <ListGroup meetups={this.props.meetups}>
             {this.props.meetups.map((m) => {
               return (
-                <ListGroupItem key={m.address} header={m.name} onClick={e => this.props.applyMeetup(m.address)} >
+                <ListGroupItem key={m.address} header={m.name} onClick={e => this.handleClick(m.address)} >
                   <MeetupItem
                     place={m.place}
                     capacity={m.capacity}
@@ -19,6 +20,7 @@ export default class MeetupBoard extends Component {
                     candidatesCount={m.candidatesCount}
                     date={m.date}
                   ></MeetupItem>
+                  <ToastContainer />
                 </ListGroupItem>
               );
             })}
@@ -26,5 +28,14 @@ export default class MeetupBoard extends Component {
         </Col>
       </Row>
     )
+  }
+
+  async handleClick(address) {
+    try {
+      await this.props.applyMeetup(address);
+    } catch(e) {
+      console.log(e);
+      toast.error(e);
+    }
   }
 }
