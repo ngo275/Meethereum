@@ -32,7 +32,8 @@ contract MeetupController {
     uint idx = meetups.length;
     meetups.push(meetupAddress);
     organizerMeetups[_organizer].push(idx);
-    meetupObjects.push(MeetupObject(meetupAddress, _applicationStartedAt, _applicationEndedAt, _date));
+    // dateが昇順になるようにinsertする
+    insertMeetupObject(MeetupObject(meetupAddress, _applicationStartedAt, _applicationEndedAt, _date));
     MeetupSet(meetupAddress, _organizer, _name, _place, _applicationStartedAt, _applicationEndedAt, _date, _minFee, _capacity);
   }
   
@@ -53,22 +54,10 @@ contract MeetupController {
     constant
     returns (address[] _meetups)
   {
-    uint fixedLength = 6;
-    uint length = (meetupObjects.length > fixedLength) ? fixedLength : meetupObjects.length;
-    _meetups = new address[](length);
-    uint skipCount = 0;
-    for (uint i = 0; i < length; i++) {
-      if (i + skipCount > meetupObjects.length) {
-        return _meetups;
-      }
-      for (uint j = i + skipCount; j < meetupObjects.length; j++) {
-        if (meetupObjects[j].date > now) {
-          _meetups[i] = meetupObjects[j].identifier;
-          break; // 内側のforだけ抜けたい
-        } else {
-          skipCount += 1;
-        }
-      }
+    MeetupObject[] memory mos = getUpcomingMeetupObjects();
+    _meetups = new address[](mos.length);
+    for (uint i = 0; i < mos.length; i++) {
+      _meetups[i] = mos[i].identifier;
     }
   }
 
@@ -83,7 +72,7 @@ contract MeetupController {
     uint skipCount = 0;
     for (uint i = 0; i < length; i++) {
       if (i + skipCount > meetupObjects.length) {
-        return sortedMeetups(_meetups);
+        return _meetups;
       }
       for (uint j = i + skipCount; j < meetupObjects.length; j++) {
         if (meetupObjects[j].date > now) {
@@ -94,7 +83,18 @@ contract MeetupController {
         }
       }
     }
-    return sortedMeetups(_meetups);
+  }
+
+  // MARK: - private methods
+
+  function insertMeetupObject(MeetupObject _meetup)
+    private
+  {
+    meetupObjects.push(_meetup);
+    MeetupObject[] memory tmp = sortedMeetups(meetupObjects);
+    for (uint i = 0; i < tmp.length; i++) {
+      meetupObjects[i] = tmp[i];
+    }
   }
 
   function sortedMeetups(MeetupObject[] _meetups)
@@ -115,7 +115,7 @@ contract MeetupController {
     for(i = 1; i < sorted.length; i++ ) {
       var c = sorted[i];
 
-      for(j = i; j > 0 && sorted[j-1].date < c.date; j-- ) {
+      for(j = i; j > 0 && sorted[j-1].date > c.date; j-- ) {
         sorted[j] = sorted[j-1];
       }
 
