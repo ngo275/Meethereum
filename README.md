@@ -5,7 +5,15 @@ Meetup on Ethereum
 
 ```bash
 git clone https://github.com/ngo275/Meethereum.git
-cd Meethereum/client
+cd Meethereum
+
+# if you use docker-compose
+docker-compose build
+docker-compose up
+# access http://localhost:3000
+
+# if you don't use docker
+cd client
 yarn
 yarn start
 ```
