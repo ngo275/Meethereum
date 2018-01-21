@@ -1,0 +1,9 @@
+version: '3.2'
+services:
+  web:
+    build: ./client
+    command: yarn start
+    volumes:
+      - ./client:/meethereum
+    ports:
+      - '3000:3000'
