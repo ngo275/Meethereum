@@ -12,6 +12,7 @@ docker-compose build
 docker-compose up
 
 # if you don't use docker
+cd client
 yarn
 yarn start
 ```
