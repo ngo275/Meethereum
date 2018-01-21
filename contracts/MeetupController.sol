@@ -61,13 +61,22 @@ contract MeetupController {
     }
   }
 
+
+  // MARK: - private methods
+
   function getUpcomingMeetupObjects()
-    public
+    private
     constant
     returns (MeetupObject[] _meetups)
   {
     uint fixedLength = 6;
-    uint length = (meetupObjects.length > fixedLength) ? fixedLength : meetupObjects.length;
+    uint length = 0;
+    if (meetupObjects.length > fixedLength) {
+      length = fixedLength;
+    } else {
+      length = meetupObjects.length;
+    }
+
     _meetups = new MeetupObject[](length);
     uint skipCount = 0;
     for (uint i = 0; i < length; i++) {
@@ -85,8 +94,6 @@ contract MeetupController {
     }
   }
 
-  // MARK: - private methods
-
   function insertMeetupObject(MeetupObject _meetup)
     private
   {
@@ -99,7 +106,7 @@ contract MeetupController {
 
   function sortedMeetups(MeetupObject[] _meetups)
     private
-    constant
+    pure
     returns (MeetupObject[] sorted)
   {
     uint len = _meetups.length;
