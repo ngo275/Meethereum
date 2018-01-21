@@ -69,12 +69,19 @@ contract MeetupController {
     constant
     returns (MeetupObject[] _meetups)
   {
+    uint openMeetupCount = 0;
+    for(uint k = 0; k < meetupObjects.length; k++) {
+      if (meetupObjects[k].date > now) {
+        openMeetupCount += 1;
+      }
+    }
+
     uint fixedLength = 6;
     uint length = 0;
-    if (meetupObjects.length > fixedLength) {
+    if (openMeetupCount > fixedLength) {
       length = fixedLength;
     } else {
-      length = meetupObjects.length;
+      length = openMeetupCount;
     }
 
     _meetups = new MeetupObject[](length);

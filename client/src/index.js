@@ -23,7 +23,7 @@ window.addEventListener('load', function() {
       store.dispatch(updateBlockNumber(blockNumber));
     }
     
-    const meetups = await meetup.getMeetups();
+    const meetups = await meetup.getUpcomingMeetups();
     if (store.getState().meetups.length !== meetups.length) {
       const meetupDetails = await map(meetups, async address => {
         const name = await meetup.getMeetupName(address);

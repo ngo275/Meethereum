@@ -31,6 +31,24 @@ export async function getMeetups() {
   });
 }
 
+export async function getUpcomingMeetups() {
+  eth.setupDefaultAccount();
+  return new Promise((resolve, reject) => {
+    meetupControllerInstance().methods
+      .getUpcomingMeetups()
+      .call()
+      .then(result => {
+        console.log(result);
+        resolve(result);
+      })
+      .catch(error => {
+        reject(error.message);
+        console.log(error.message);
+        return;
+      });
+  });
+}
+
 export async function newMeetup(name, place, applicationStartedAt, applicationEndedAt, date, minFee, capacity) {
   eth.setupDefaultAccount();
 
