@@ -12,6 +12,10 @@ yarn start
 
 ## Screenshots
 
+### newMeetup
+
 ![demo](https://raw.github.com/wiki/ngo275/Meethereum/images/newMeetup.gif)
+
+### applyMeetup
 
 ![demo](https://raw.github.com/wiki/ngo275/Meethereum/images/applyMeetup.gif)
