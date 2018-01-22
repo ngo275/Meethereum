@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: web 
+spec:
+  replicas: 1
+  strategy:
+      type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        layer: web
+    spec:
+      containers:
+      - name: "meethereum"
+        image: "asia.gcr.io/meethereum/meethereum:v0"
+        ports:
+        - name: "http"
+          containerPort: 3000
+        command: ['yarn', 'start']
+        readinessProbe:
+          tcpSocket:
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
