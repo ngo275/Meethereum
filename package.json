@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "truffle": "^4.0.5"
+  },
+  "scripts": {
+    "start": "truffle develop",
+    "test": "truffle compile && truffle test"
+  }
+}

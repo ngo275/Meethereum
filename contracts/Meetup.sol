@@ -27,7 +27,6 @@ contract Meetup {
   event ApplicationApproved(address[] _applicantIDs);
 
   Candidate[] public candidates;
-  address[] public invitations;
   mapping (address => Candidate) public approvedApplicants;
   mapping (address => uint) public refunds;
 
@@ -80,7 +79,7 @@ contract Meetup {
   function apply(string _name)
     public
     payable
-    // duringApplicationPeriod()
+    duringApplicationPeriod()
     notAborted()
   {
     require(msg.value >= minFee);
@@ -97,7 +96,7 @@ contract Meetup {
 
   function cancel()
     public
-    // duringApplicationPeriod()
+    duringApplicationPeriod()
     notAborted()
     returns (bool success)
   {
@@ -125,7 +124,7 @@ contract Meetup {
 
   function isApplied()
     public
-    // duringApplicationPeriod()
+    duringApplicationPeriod()
     notAborted()
     constant
     returns (bool success)
@@ -137,7 +136,7 @@ contract Meetup {
   function publishApprovedApplicants()
     public
     onlyOrganizer()
-    // afterApplicationEnd()
+    afterApplicationEnd()
     notAborted()
     returns (bool success)
   {
@@ -146,17 +145,6 @@ contract Meetup {
     uint i;
 
     var applicantIDs = new address[](capacity);
-
-    /* Approve prioritized applicantIDs by an owner.*/
-    for(i = 0; i < invitations.length && approvedApplicantsCount <= capacity; i++) {
-      var c = getCandidate(invitations[i]);
-      if (c.applicantID != 0x0 && approvedApplicants[c.applicantID].applicantID == 0x0) {
-        approvedApplicants[c.applicantID] = c;
-        amount += c.fee;
-        applicantIDs[approvedApplicantsCount] = c.applicantID;
-        approvedApplicantsCount++;
-      }
-    }
 
     /* Sort left candidates by each fee.*/
     Candidate[] memory tmp = sortedCandidates();
@@ -191,7 +179,7 @@ contract Meetup {
     public
     onlyAdministrator()
     notAborted()
-    // beforeApplicationEnd()
+    beforeApplicationEnd()
   {
     aborted = true;
     Aborted(address(this), name);
@@ -205,7 +193,7 @@ contract Meetup {
 
   function isApplicationApproved()
     public
-    // afterApplicationEnd()
+    afterApplicationEnd()
     notAborted()
     constant returns (bool success)
   {
