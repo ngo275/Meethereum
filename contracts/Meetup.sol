@@ -56,8 +56,8 @@ contract Meetup {
     _;
   }
 
-  modifier onlyAdministrator() {
-    require(organizer == msg.sender || owner == msg.sender);
+  modifier onlyAdmin() {
+    require(isAdmin());
     _;
   }
 
@@ -133,9 +133,17 @@ contract Meetup {
     success = c.applicantID == msg.sender;
   }
 
+  function isAdmin()
+    public
+    constant
+    returns (bool success)
+  {
+    success = (owner == msg.sender || organizer == msg.sender);
+  }
+
   function publishApprovedApplicants()
     public
-    onlyOrganizer()
+    onlyAdmin()
     afterApplicationEnd()
     notAborted()
     returns (bool success)
@@ -177,7 +185,7 @@ contract Meetup {
 
   function abortEvent()
     public
-    onlyAdministrator()
+    onlyAdmin()
     notAborted()
     beforeApplicationEnd()
   {
