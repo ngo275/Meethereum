@@ -1,5 +1,6 @@
 # Meethereum
-Meetup on Ethereum
+Meetup on Ethereum.
+Hosted on GCP.
 
 ## Usage
 
