@@ -14,8 +14,7 @@ docker-compose up
 # access http://localhost:3000
 
 # if you don't use docker
-cd client
-yarn
+cd client && yarn
 yarn start
 ```
 
