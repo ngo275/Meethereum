@@ -18,6 +18,8 @@ cd client && yarn
 yarn start
 ```
 
+*it is implemented only on Kovan.
+
 ## Screenshots
 
 ### newMeetup
